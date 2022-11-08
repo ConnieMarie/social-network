@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Thought = require("../models/Thought");
 
 
 const userController = {
@@ -15,7 +16,7 @@ const userController = {
   // get one user by
   getUserById(req, res) {
     User.findOne({
-      _id: req.params.id,
+      _id: req.params.userId
     })
       .populate({
         path: 'thoughts'
@@ -45,7 +46,7 @@ const userController = {
 
   // update user by id
   updateUser(req, res) {
-    User.findOneAndUpdate({ _id: req.params.id}, req.body, { new: true, runValidators: true })
+    User.findOneAndUpdate({ _id: req.params.userId}, req.body, { new: true, runValidators: true })
     .then(dbUserData => {
       if (!dbUserData) {
         res.status(404).json({ message: 'No user found with this id.' });
@@ -59,7 +60,7 @@ const userController = {
   //delete user
   // delete user's associated thoughts when deleted
   deleteUser(req, res) {
-    User.findOneAndDelete({ _id: req.params.id })
+    User.findOneAndDelete({ _id: req.params.userId })
     .then(dbUserData => res.json(dbUserData))
     .catch(err => res.json(err));
   },
