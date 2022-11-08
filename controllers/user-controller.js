@@ -45,22 +45,47 @@ const userController = {
 
   // update user by id
   updateUser(req, res) {
-    User.findOneAndUpdate({});
+    User.findOneAndUpdate({ _id: req.params.id}, req.body, { new: true, runValidators: true })
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({ message: 'No user found with this id.' });
+        return;
+      }
+      res.json(dbUserData);
+    })
+    .catch(err => res.json(err));
   },
 
   //delete user
+  // delete user's associated thoughts when deleted
   deleteUser(req, res) {
-    User.findOneAndDelete({});
+    User.findOneAndDelete({ _id: req.params.id })
+    .then(dbUserData => res.json(dbUserData))
+    .catch(err => res.json(err));
   },
 
-  // delete user's associated thoughts when deleted
-
   addFriend(req, res) {
-    User.findOneAndUpdate({});
+    User.findOneAndUpdate({ _id: req.params.userId}, { $push: { friends: req.params.friendId }}, { new: true })
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({ message: 'No user found with this id.' });
+        return;
+      }
+      res.json(dbUserData);
+    })
+    .catch(err => res.json(err));
   },
 
   deleteFriend(req, res) {
-    User.findOneAndDelete({});
+    User.findOneAndUpdate({ _id: req.params.userId}, { $pull: { friends: req.params.friendId }}, { new: true })
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({ message: 'No user found with this id.' });
+        return;
+      }
+      res.json(dbUserData);
+    })
+    .catch(err => res.json(err));
   },
 };
 
