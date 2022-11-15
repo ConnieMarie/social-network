@@ -3,7 +3,8 @@ const { User, Thought } = require("../models");
 const userController = {
   // get all users
   getAllUser(req, res) {
-    User.find()
+    User.find({})
+      .select('-__v')
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => {
         console.log(err);
@@ -16,12 +17,19 @@ const userController = {
     User.findOne({
       _id: params.userId,
     })
+      // populate single user's thoughts and sort by most recent
       .populate({
         path: "thoughts",
+        select: "-__v"
       })
+      .select('-__v')
+      .sort({ _id: -1 })
+      // populate user's friends
       .populate({
         path: "friends",
+        select: "-__v"
       })
+      .select('-__v')
       .then((dbUserData) => {
         if (!dbUserData) {
           res.status(404).json({ message: "No user found with this id." });
@@ -59,13 +67,22 @@ const userController = {
   },
 
   //delete user
-  // delete user's associated thoughts when deleted
   deleteUser({ params }, res) {
     User.findOneAndDelete({ _id: params.userId })
-      .then((dbUserData) => res.json(dbUserData))
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          return res.status(404).json({ message: "No user found with this id." });
+        }
+        // delete user's associated thoughts when deleted
+        return Thought.deleteMany({ _id: {$in: dbUserData.thoughts} });
+      })
+      .then(() => {
+        res.json({ message: "User and their thoughts successfully removed!"});
+      })
       .catch((err) => res.json(err));
   },
 
+  // add friend to user's friends field
   addFriend({ params }, res) {
     User.findOneAndUpdate(
       { _id: params.userId },
@@ -82,6 +99,7 @@ const userController = {
       .catch((err) => res.json(err));
   },
 
+  // remove friend from user's friends field
   removeFriend({ params }, res) {
     User.findOneAndUpdate(
       { _id: params.userId },

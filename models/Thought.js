@@ -3,6 +3,7 @@ const dateFormat = require('../utils/dateFormat');
 
 const ReactionSchema = new Schema(
   {
+    // set custom id to avoid confusion with parent comment _id
     reactionId: {
       type: Schema.Types.ObjectId,
       default: () => new Types.ObjectId
@@ -24,9 +25,9 @@ const ReactionSchema = new Schema(
   },
   {
     toJSON: {
-      virtuals: true,
       getters: true
     },
+
   }
 )
 
@@ -47,6 +48,7 @@ const ThoughtSchema = new Schema(
       type: String,
       required: true,
     },
+    // use ReactionSchema to validate data for a reaction
     reactions: [ReactionSchema],
   },
   {
@@ -54,6 +56,8 @@ const ThoughtSchema = new Schema(
       virtuals: true,
       getters: true
     },
+    // prevents virtuals from creating duplicate of _id as `id`
+    id: false
   }
 );
 

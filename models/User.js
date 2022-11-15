@@ -12,7 +12,7 @@ const UserSchema = new Schema(
     email: {
       type: String,
       required: true,
-      match: /.+\@.+\..+/,
+      match: [/.+\@.+\..+/, "Please provide valid email address."],
       unique: true,
     },
 
@@ -34,6 +34,7 @@ const UserSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
+    // prevents virtuals from creating duplicate of _id as `id`
     id: false
   }
 );

@@ -23,6 +23,7 @@ router
     .route("/:thoughtId")
     .get(getThoughtById)
     .put(updateThought);
+    
 
 //Set up DELETE at api/thoughts/:thoughtId/:userId
 router
