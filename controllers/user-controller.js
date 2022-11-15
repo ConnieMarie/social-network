@@ -12,7 +12,7 @@ const userController = {
       });
   },
 
-  // get one user by
+  // get one user by id
   getUserById({ params }, res) {
     User.findOne({
       _id: params.userId,
@@ -66,7 +66,7 @@ const userController = {
       .catch((err) => res.json(err));
   },
 
-  //delete user
+  //delete user by id
   deleteUser({ params }, res) {
     User.findOneAndDelete({ _id: params.userId })
       .then((dbUserData) => {
