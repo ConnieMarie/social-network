@@ -3,7 +3,9 @@
   [![License: ISC](https://img.shields.io/badge/license-ISC-blue.svg)](#license)
 
   ## Description
-  This API was built for a social network web application where users can share their thoughts, react to friends' thoughts, and create a friends list. I used Express.js for routing, a MongoDB database, and the Mongoose ODM. Below you will find a walkthrough video demonstrating its functionality as well as information relative to the table of contents.
+  This API was built for a social network web application where users can share their thoughts, react to friends' thoughts, and create a friends list. I used Express.js for routing, a MongoDB database, and the Mongoose ODM. Below you will find a walkthrough video demonstrating its functionality as well as additional information relative to the links in the table of contents.
+
+  [![Social Network API](https://res.cloudinary.com/marcomontalbano/image/upload/v1668544520/video_to_markdown/images/google-drive--1s4sUb8FYvuOUjVUEgTXwpaxjl8J6zSHz-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://drive.google.com/file/d/1s4sUb8FYvuOUjVUEgTXwpaxjl8J6zSHz/view "Social Network API")
 
   ## Table of Contents
   - [Installation](#installation)
